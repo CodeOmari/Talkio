@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from Backend import settings
 from django.conf.urls.static import static
 from talkio.views import UserCreateView
@@ -27,4 +27,6 @@ urlpatterns = [
     path('register/', UserCreateView.as_view(), name='register'),
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('talkio/', include('talkio.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
