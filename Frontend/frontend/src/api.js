@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 
-// Request interceptor
+// Request interceptors
 // Before every request, axios reads the token from the localStorage
 api.interceptors.request.use(
   (config) => {
