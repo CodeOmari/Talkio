@@ -2,7 +2,7 @@ import react from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Message from "./pages/Messages"
+import Messages from "./pages/Messages"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -24,7 +24,7 @@ export default function App() {
           path="/"
           element={
             <ProtectedRoute>
-              <Message />
+              <Messages />
             </ProtectedRoute>
           }
         />
