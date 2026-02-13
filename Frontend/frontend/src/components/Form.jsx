@@ -11,8 +11,8 @@ import '../styles/Form.css'
 export default function Form({route, method}) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -20,11 +20,10 @@ export default function Form({route, method}) {
   const isLogin = method === "login";
   const action = isLogin ? "Login" : "Register";
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isLogin && password !== confirmPassword) {
+    if (method === 'register' && password1 !== password2) {
       alert("Passwords do not match");
       return;
     }
@@ -34,15 +33,23 @@ export default function Form({route, method}) {
     try {
       let payload;
 
-      if (isLogin) {
-        payload = { email, password1: password };
+      if (method === 'login') {
+        payload = { 
+          email, 
+          password: password1,
+         };
       } else {
-        payload = { username, email, password1:password, password2:confirmPassword };
+        payload = { 
+          username, 
+          email, 
+          password1, 
+          password2, 
+        };
       }
 
       const res = await api.post(route, payload);
 
-      if (isLogin) {
+      if (method === "login") {
         localStorage.setItem(ACCESS_TOKEN, res.data.access_token);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh_token);
         navigate("/");
@@ -50,7 +57,7 @@ export default function Form({route, method}) {
         navigate("/login");
       }
     } catch (error) {
-      alert("Authentication failed");
+      alert("Incorrect username or password");
     } finally {
       setLoading(false);
     }
@@ -61,7 +68,7 @@ export default function Form({route, method}) {
       <h1>Talkio</h1>
 
       {/* Username only for register */}
-      {!isLogin && (
+      {method === 'register' && (
         <input
           className="form-input"
           type="text"
@@ -84,19 +91,19 @@ export default function Form({route, method}) {
       <input
         className="form-input"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={password1}
+        onChange={(e) => setPassword1(e.target.value)}
         placeholder="Password"
         required
       />
 
       {/* Confirm password only for register */}
-      {!isLogin && (
+      {method === 'register' && (
         <input
           className="form-input"
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={password2}
+          onChange={(e) => setPassword2(e.target.value)}
           placeholder="Confirm Password"
           required
         />
