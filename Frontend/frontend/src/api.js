@@ -1,7 +1,7 @@
 // npm install axios
 // JavaScript Library used to make HTTP requests(POST, GET, PUT, DELETE)
 import axios from "axios"
-import { ACCESS_TOKEN } from './constants'
+import { ACCESS_TOKEN } from "./constants";
 
 
 // Ensures every request starts with VITE_API_URL(defined in the .env file) followed by the endpoint.
