@@ -50,8 +50,8 @@ export default function Form({route, method}) {
       const res = await api.post(route, payload);
 
       if (method === "login") {
-        localStorage.setItem(ACCESS_TOKEN, res.data.access_token);
-        localStorage.setItem(REFRESH_TOKEN, res.data.refresh_token);
+        localStorage.setItem(ACCESS_TOKEN, res.data.access);
+        localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
         navigate("/");
       } else {
         navigate("/login");
