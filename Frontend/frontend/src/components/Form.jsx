@@ -65,7 +65,10 @@ export default function Form({route, method}) {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <h1>Talkio</h1>
+      <div className="title">
+          <h2>Talkio</h2>
+          <img src="../src/assets/Talkio-logo.png" alt="icon" />
+      </div>
 
       {/* Username only for register */}
       {method === 'register' && (
