@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     path("my-messages/<user_id>/", views.ChatInbox.as_view(), name='my_inbox'),
-    path("get-messages/<sender_id>/<reciever_id>/", views.GetChat.as_view(), name='get_messages'),
-    path("send-messages/", views.SendMessage.as_view(), name='send_messages'),
+    path("get-messages/<sender_id>/<receiver_id>/", views.GetChat.as_view(), name='get_messages'),
+    path("send-message/", views.SendMessage.as_view(), name='send_messages'),
 
     
     path("profile/<int:pk>/", views.ProfileDetail.as_view(), name='profile'),
