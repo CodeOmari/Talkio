@@ -48,8 +48,8 @@ class GetChat(generics.ListAPIView):
     
     def get_queryset(self):
         sender_id = self.kwargs['sender_id']
-        receiver_id = self.kwargs['reciever_id']
-        messages =  Chat.objects.filter(sender__in=[sender_id, receiver_id], receiver__in=[sender_id, receiver_id])
+        receiver_id = self.kwargs['receiver_id']
+        messages =  Chat.objects.filter(sender__in=[sender_id, receiver_id], receiver__in=[sender_id, receiver_id]).order_by("sent_at")
         return messages
     
 
@@ -76,8 +76,16 @@ class SearchUser(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         username = self.kwargs['username']
         logged_in_user = self.request.user
-        users = Profile.objects.filter(Q(user__username__icontains=username) | Q(full_name__icontains=username) | Q(user__email__icontains=username) & 
-                                       ~Q(user=logged_in_user))
+        # users = Profile.objects.filter(Q(user__username__icontains=username) | Q(full_name__icontains=username) | Q(user__email__icontains=username) & 
+        #                                ~Q(user=logged_in_user))
+        users = Profile.objects.filter(
+            (
+                Q(user__username__icontains=username) |
+                Q(full_name__icontains=username) |
+                Q(user__email__icontains=username)
+            ) &
+            ~Q(user=logged_in_user)
+        )
 
         if not users.exists():
             return Response(
