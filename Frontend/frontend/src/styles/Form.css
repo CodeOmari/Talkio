@@ -4,9 +4,9 @@
     padding: 0;
     font-family: "Lato", serif;
 }
-body{
+/* body{
   background-color: #007bff;
-}
+} */
 .title{
   display: flex;
   flex-direction: row;
