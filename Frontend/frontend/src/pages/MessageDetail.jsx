@@ -20,9 +20,7 @@ export default function MessageDetail() {
   const [myProfile, setMyProfile] = useState({});
   const [newMessage, setNewMessage] = useState("");
 
-  /* ===============================
-     FETCH LOGGED IN USER PROFILE
-  =============================== */
+
   useEffect(() => {
     if (!user_id) return;
 
@@ -31,9 +29,7 @@ export default function MessageDetail() {
       .catch(err => console.log(err));
   }, [user_id]);
 
-  /* ===============================
-     FETCH INBOX LIST
-  =============================== */
+  
   useEffect(() => {
     if (!user_id) return;
 
@@ -42,9 +38,7 @@ export default function MessageDetail() {
       .catch(err => console.log(err));
   }, [user_id]);
 
-  /* ===============================
-     FETCH CONVERSATION
-  =============================== */
+
   useEffect(() => {
     if (!user_id || !id) return;
 
@@ -58,9 +52,7 @@ export default function MessageDetail() {
 
   }, [user_id, id]);
 
-  /* ===============================
-     FETCH SELECTED USER PROFILE
-  =============================== */
+  
   useEffect(() => {
     if (!id) return;
 
@@ -69,9 +61,7 @@ export default function MessageDetail() {
       .catch(err => console.log(err));
   }, [id]);
 
-  /* ===============================
-     SEND MESSAGE
-  =============================== */
+ 
   const sendMessage = () => {
 
     if (!newMessage.trim()) return;
