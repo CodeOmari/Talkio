@@ -1,125 +1,180 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
-import api from '../api'
-import { ACCESS_TOKEN } from '../constants'
-import {jwtDecode} from 'jwt-decode'
-import moment from 'moment'
-
-
+import React, { useState, useEffect } from "react";
+import "../styles/Message.css";
+import api from "../api";
+import { ACCESS_TOKEN } from "../constants";
+import {jwtDecode} from "jwt-decode";
+import moment from "moment";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Message() {
-    const baseURL = 'http://127.0.0.1:8000/talkio'
-    const [messages, setMessages] = useState([]);
-    let [newSearch, setnewSearch] = useState({search: "",});
+  const baseURL = "http://127.0.0.1:8000/talkio";
+  const [messages, setMessages] = useState([]);
+  const [username, setUsername] = useState("");
+  const [myProfile, setMyProfile] = useState(null);
 
-    const axios = api
-    const token = localStorage.getItem(ACCESS_TOKEN);
+  const navigate = useNavigate();
+  const token = localStorage.getItem(ACCESS_TOKEN);
+  let user_id = null;
+  let decoded = null;
 
-    let user_id = null;
-    let username = null;
+  if (token) {
+    decoded = jwtDecode(token);
+    user_id = decoded.user_id;
+  }
 
-    if (token) {
-        const decoded = jwtDecode(token)
-        user_id = decoded.user_id;
-        username = decoded.username;
-    }
+  
+  useEffect(() => {
+    if (!user_id) return;
 
-    useEffect(() => {
-        try {
-        // Send a get request to the api endpoint to get the message of the logged in user
-        axios.get(baseURL + '/my-messages/' + user_id + '/').then((res) => {
-            // Set the data that was gotten back from the database via the api to the setMessage state
-            setMessages(res.data)
-            // Console Log the data that was gotten from the db
-            console.log(res.data);
-        })
-        } catch (error) {
-            console.log(error);
-        }
-    }, [])
+    api
+      .get(`${baseURL}/profile/${user_id}/`)
+      .then((res) => setMyProfile(res.data))
+      .catch(console.error);
+  }, [user_id]);
 
-    const handleSearchChange = (event) => {
-        setnewSearch({
-        ...newSearch,
-        [event.target.name]: event.target.value,
+  
+  useEffect(() => {
+    if (!user_id) return;
+
+    api
+      .get(`${baseURL}/my-messages/${user_id}/`)
+      .then((res) => setMessages(res.data))
+      .catch((error) => {
+        console.error(error);
+        Swal.fire({
+          title: "Error loading messages",
+          icon: "error",
         });
-    };
+      });
+  }, [user_id]);
 
-    const SearchUser = () => {
-        axios.get(baseURL + '/search/' + newSearch.username + '/')
-            .then((res) => {
-                if (res.status === 404) {
-                    console.log(res.data.detail);
-                    alert("User does not exist");
-                } else {
-                    history.push('/search/'+newSearch.username+'/');
-                }
-            })
-            .catch((error) => {
-                alert("User Does Not Exist")
-            });
-    };
-    
-    return(
-        <div>
-            <main className='content'>
-                <div className='container p-0'>
-                    <h1>Messages</h1>
-                    <div className="card">
-                        <div className="row">
-                            <div className='col-12 col-lg-5'>
-                                <div className="px-4">
-                                    <div className="d-flex">
-                                        <div className="flex-grow">
-                                            <input
-                                                type="text"
-                                                className="form-control my-3"
-                                                placeholder="Search..."
-                                                onChange={handleSearchChange}
-                                                name='username'
+  
+  const searchUser = async () => {
+    if (!username.trim()) return;
 
-                                            />
-                                            <button className='ml-2' onClick={SearchUser} style={{border:"none", borderRadius:"50%"}}><i className='fas fa-search'></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {messages.map((message) =>
-                                    <Link 
-                                        to={"/inbox/" + (message.sender.id === user_id ? message.receiver.id : message.sender.id) + "/"}
-                                        href="#"
-                                        className="list-group-item list-group-item-action border-0">
+    try {
+      const response = await api.get(`${baseURL}/search/${username}/`);
 
-                                        <small>
-                                            <div className="badge bg-success float-right text-white">{moment.utc(message.date).local().startOf('seconds').fromNow()}</div>
-                                        </small>
-                                        <div className="d-flex align-items-start">
-                                            {message.sender.id !== user_id && 
-                                                <img src={message.sender_profile.image} className="rounded-circle mr-1" alt="1" width={40} height={40}/>
-                                            }
-                                            {message.sender.id === user_id && 
-                                                <img src={message.receiver_profile.image} className="rounded-circle mr-1" alt="2" width={40} height={40}/>
-                                            }
-                                            <div className="flex-grow-1 ml-3">
-                                                {message.sender.id === user_id && 
-                                                    (message.receiver_profile.full_name !== null ? message.receiver_profile.full_name : message.receiver.username)
-                                                }
+      if (!response.data || response.data.length === 0) {
+        Swal.fire({
+          title: "User Not Found",
+          icon: "warning",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        return;
+      }
 
-                                                {message.sender.id !== user_id && 
-                                                    (message.sender.username) 
-                                                }
-                                                <div className="small">
-                                                    <small>{message.message}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )}    
-                                <hr className="d-block d-lg-none mt-1 mb-0" />
-                            </div>
-                        </div>
-                    </div>
+  
+      const userId = response.data[0].user.id;
+      navigate(`/inbox/${userId}`);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Search Failed",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  return (
+    <main className="content" style={{ marginTop: "120px" }}>
+      <div className="container">
+        <h1>Messages</h1>
+        <div className="card">
+          <div className="row">
+
+            {/* LEFT SIDEBAR */}
+            <div className="col-12 col-lg-5 border-end p-3">
+
+              {/* Logged-in user profile */}
+              {myProfile && (
+                <div className="text-center mb-3">
+                  <img
+                    src={myProfile.image}
+                    className="rounded-circle"
+                    width="60"
+                    height="60"
+                    alt="Profile"
+                  />
+                  <h6 className="mt-2">
+                    Welcome Back, {myProfile.full_name}
+                  </h6>
                 </div>
-            </main>
+              )}
+
+              {/* Search Input */}
+              <div className="d-flex mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <button
+                  className="btn btn-primary ms-2"
+                  onClick={searchUser}
+                >
+                  Search
+                </button>
+              </div>
+
+              {/* Inbox List */}
+              {messages.length === 0 ? (
+                <div className="text-center mt-5">
+                  <p>No conversations yet</p>
+                </div>
+              ) : (
+                messages.map((msg) => {
+                  const otherUserId =
+                    msg.sender.id === user_id ? msg.receiver.id : msg.sender.id;
+                  const profile =
+                    msg.sender.id === user_id
+                      ? msg.receiver_profile
+                      : msg.sender_profile;
+
+                  return (
+                    <Link
+                      key={msg.id}
+                      to={`/inbox/${otherUserId}`}
+                      className="list-group-item list-group-item-action mb-2"
+                    >
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={profile.image}
+                          className="rounded-circle me-2"
+                          width={40}
+                          height={40}
+                          alt="Profile"
+                        />
+                        <div className="flex-grow-1">
+                          <strong>{profile.full_name || profile.user.username}</strong>
+                          <div className="small text-truncate">{msg.message}</div>
+                        </div>
+                        <small className="text-muted ms-2">
+                          {moment.utc(msg.sent_at).local().fromNow()}
+                        </small>
+                      </div>
+                    </Link>
+                  );
+                })
+              )}
+            </div>
+
+            {/* RIGHT SIDE */}
+            <div className="col-12 col-lg-7 p-3">
+              <div className="text-center text-muted">
+                <p>Select a conversation or search for a user to start messaging.</p>
+              </div>
+            </div>
+
+          </div>
         </div>
-    )
+      </div>
+    </main>
+  );
 }
