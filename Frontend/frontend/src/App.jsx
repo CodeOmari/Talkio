@@ -22,6 +22,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route
           path="/"
           element={
@@ -30,12 +31,40 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/inbox"
+          element={
+            <ProtectedRoute>
+              <Messages />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/inbox/:id"
+          element={
+            <ProtectedRoute>
+              <MessageDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/search/:username"
+          element={
+            <ProtectedRoute>
+              <SearchUsers />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
-        <Route component={MessageDetail} path="/inbox/:id" exact />
-        <Route component={SearchUsers} path="/search/:username" exact />
-        <Route path="*" element={<NotFound />}></Route>
+
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </BrowserRouter>
   )
