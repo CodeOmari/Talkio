@@ -94,7 +94,7 @@ export default function Message() {
               {myProfile && (
                 <div className="text-center mb-3">
                   <img
-                    src={myProfile.image}
+                    src="../src/assets/default-img.png"
                     className="rounded-circle"
                     width="60"
                     height="60"
@@ -124,47 +124,48 @@ export default function Message() {
               </div>
 
               {/* Inbox List */}
-              {messages.length === 0 ? (
-                <div className="text-center mt-5">
-                  <p>No conversations yet</p>
-                </div>
-              ) : (
-                messages.map((msg) => {
-                  const otherUserId =
-                    msg.sender.id === user_id ? msg.receiver.id : msg.sender.id;
-                  const profile =
-                    msg.sender.id === user_id
-                      ? msg.receiver_profile
-                      : msg.sender_profile;
+                {messages.length === 0 ? (
+                  <div className="text-center mt-5">
+                    <p>No conversations yet</p>
+                  </div>
+                ) : (
+                  messages.map((msg) => {
+                    const otherUserId =
+                      msg.sender.id === user_id ? msg.receiver.id : msg.sender.id;
+                    const profile =
+                      msg.sender.id === user_id
+                        ? msg.receiver_profile
+                        : msg.sender_profile;
+                    const lastMessageFromOtherUser =
+                      msg.sender.id !== user_id ? msg.message : "No messages yet";    
 
-                  return (
-                    <Link
-                      key={msg.id}
-                      to={`/inbox/${otherUserId}`}
-                      className="list-group-item list-group-item-action mb-2"
-                    >
-                      <div className="d-flex align-items-center">
-                        <img
-                          src={profile.image}
-                          className="rounded-circle me-2"
-                          width={40}
-                          height={40}
-                          alt="Profile"
-                        />
-                        <div className="flex-grow-1">
-                          <strong>{profile.full_name || profile.user.username}</strong>
-                          <div className="small text-truncate">{msg.message}</div>
+                    return (
+                      <Link
+                        key={msg.id}
+                        to={`/inbox/${otherUserId}`}
+                        className="list-group-item list-group-item-action mb-2"
+                      >
+                        <div className="d-flex align-items-center">
+                          <img
+                            src="../src/assets/receiver-img.png"
+                            className="rounded-circle me-2"
+                            width={40}
+                            height={40}
+                            alt="Profile"
+                          />
+                          <div className="flex-grow-1">
+                            <strong>{profile.full_name || profile.user.username}</strong>
+                            <div className="small text-truncate">{lastMessageFromOtherUser}</div>
+                          </div>
+                          <small className="text-muted ms-2">
+                            {moment.utc(msg.sent_at).local().fromNow()}
+                          </small>
                         </div>
-                        <small className="text-muted ms-2">
-                          {moment.utc(msg.sent_at).local().fromNow()}
-                        </small>
-                      </div>
-                    </Link>
-                  );
-                })
-              )}
-            </div>
-
+                      </Link>
+                    );
+                  })
+                )}
+              </div>
             {/* RIGHT SIDE */}
             <div className="col-12 col-lg-7 p-3">
               <div className="text-center text-muted">
