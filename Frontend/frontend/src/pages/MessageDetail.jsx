@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import "../styles/MessageDetails.css";
 import { ACCESS_TOKEN } from "../constants";
 import { Link, useParams } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
@@ -77,12 +78,18 @@ export default function MessageDetail() {
   };
 
   return (
-    <main className="content" style={{ marginTop: "120px" }}>
+    <main className="content">
       <div className="container">
         <div className="row">
 
           {/* LEFT SIDEBAR */}
-          <div className="col-md-4 border-end">
+          <div className="col-md-4 border-end profile-section">
+            <div className="back-btn">
+              <a href="/inbox" className="link">
+                <img src="../src/assets/arrow-left.svg" alt="back-arrow" />
+              </a>
+            </div>
+
             <div className="text-center p-3 border-bottom">
               <img
                 src="../src/assets/default-img.png"
