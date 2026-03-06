@@ -1,5 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Lato", serif;
+}
 body{
     margin-top:20px;
+}
+.title{
+    color: #000;
+    font-weight: 500;
+}
+.logout{
+    background-color: #fff;
+    width: 100px;
+    margin-top: 20px;
+    padding: 4px;
+    border-radius: 3px;
+}
+.logout-link{
+    color: #000;
+    text-decoration: none;
+}
+.logout-link img{
+    padding-right: 4px;
 }
 .chat-online {
     color: #34ce57
