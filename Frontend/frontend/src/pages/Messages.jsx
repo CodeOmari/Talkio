@@ -81,9 +81,9 @@ export default function Message() {
   };
 
   return (
-    <main className="content" style={{ marginTop: "120px" }}>
+    <main className="content-list" style={{ marginTop: "120px" }}>
       <div className="container">
-        <h1>Messages</h1>
+        <h1 className="title">Messages</h1>
         <div className="card">
           <div className="row">
 
@@ -175,6 +175,13 @@ export default function Message() {
 
           </div>
         </div>
+      </div>
+
+      <div className="logout mx-auto">
+           <a href="/logout" className="logout-link">
+                <img src="../src/assets/logout-icon.svg" alt="logout-icon" />
+                Logout
+           </a>
       </div>
     </main>
   );
