@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function Message() {
-  const baseURL = "http://127.0.0.1:8000/talkio";
+  const baseURL = "/talkio";
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState("");
   const [myProfile, setMyProfile] = useState(null);
