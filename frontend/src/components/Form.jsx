@@ -6,6 +6,8 @@ import { useNavigate, Link } from "react-router-dom"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import LoadingIndicator from './LoadingIndicator'
 
+import Logo from "../assets/Talkio-logo.png";
+
 import '../styles/Form.css'
 
 export default function Form({route, method}) {
@@ -67,7 +69,7 @@ export default function Form({route, method}) {
     <form onSubmit={handleSubmit} className="form-container">
       <div className="title">
           <h2>Talkio</h2>
-          <img src="../src/assets/Talkio-logo.png" alt="icon" />
+          <img src={Logo} alt="icon" />
       </div>
 
       {/* Username only for register */}
