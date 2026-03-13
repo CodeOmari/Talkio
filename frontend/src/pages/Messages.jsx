@@ -7,6 +7,10 @@ import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+import SenderImg from "../assets/default-img.png";
+import ReceiverImg from "../assets/receiver-img.png";
+import Logout from "../assets/logout-icon.svg";
+
 export default function Message() {
   const baseURL = "/talkio";
   const [messages, setMessages] = useState([]);
@@ -94,7 +98,7 @@ export default function Message() {
               {myProfile && (
                 <div className="text-center mb-3">
                   <img
-                    src="../src/assets/default-img.png"
+                    src={SenderImg}
                     className="rounded-circle"
                     width="60"
                     height="60"
@@ -147,7 +151,7 @@ export default function Message() {
                       >
                         <div className="d-flex align-items-center">
                           <img
-                            src="../src/assets/receiver-img.png"
+                            src={ReceiverImg}
                             className="rounded-circle me-2"
                             width={40}
                             height={40}
@@ -179,7 +183,7 @@ export default function Message() {
 
       <div className="logout mx-auto">
            <a href="/logout" className="logout-link">
-                <img src="../src/assets/logout-icon.svg" alt="logout-icon" />
+                <img src={Logout} alt="logout-icon" />
                 Logout
            </a>
       </div>
