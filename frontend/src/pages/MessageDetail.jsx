@@ -6,6 +6,9 @@ import { Link, useParams } from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import moment from "moment";
 
+import Back from "../assets/arrow-left.svg";
+import SenderImg from "../assets/default-img.png";
+
 export default function MessageDetail() {
   const baseURL = "/talkio";
   const { id } = useParams();
@@ -86,13 +89,13 @@ export default function MessageDetail() {
           <div className="col-md-4 border-end profile-section">
             <div className="back-btn">
               <a href="/inbox" className="link">
-                <img src="../src/assets/arrow-left.svg" alt="back-arrow" />
+                <img src={Back} alt="back-arrow" />
               </a>
             </div>
 
             <div className="text-center p-3 border-bottom">
               <img
-                src="../src/assets/default-img.png"
+                src={SenderImg}
                 className="rounded-circle"
                 width="60"
                 height="60"
