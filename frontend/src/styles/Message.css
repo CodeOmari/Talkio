@@ -12,15 +12,15 @@ body{
     font-weight: 500;
 }
 .logout{
-    background-color: #fff;
-    width: 100px;
     margin-top: 20px;
-    padding: 4px;
-    border-radius: 3px;
 }
 .logout-link{
     color: #000;
     text-decoration: none;
+    border: none;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 4px;
 }
 .logout-link img{
     padding-right: 4px;
