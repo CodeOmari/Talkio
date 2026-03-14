@@ -19,6 +19,13 @@ export default function Message() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem(ACCESS_TOKEN);
+
+  const handleLogout = () => {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.clear();
+  navigate("/login");
+  };
+
   let user_id = null;
   let decoded = null;
 
@@ -182,10 +189,10 @@ export default function Message() {
       </div>
 
       <div className="logout mx-auto">
-           <Link href="/logout" className="logout-link">
+           <button className="logout-link" onClick={handleLogout}>
                 <img src={Logout} alt="logout-icon" />
                 Logout
-           </Link>
+           </button>
       </div>
     </main>
   );
