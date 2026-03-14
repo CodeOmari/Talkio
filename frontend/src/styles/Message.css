@@ -13,6 +13,8 @@ body{
 }
 .logout{
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
 .logout-link{
     color: #000;

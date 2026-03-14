@@ -188,7 +188,7 @@ export default function Message() {
         </div>
       </div>
 
-      <div className="logout me-auto ms-auto">
+      <div className="logout mx-auto">
            <button className="logout-link" onClick={handleLogout}>
                 <img src={Logout} alt="logout-icon" />
                 Logout
