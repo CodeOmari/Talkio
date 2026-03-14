@@ -182,10 +182,10 @@ export default function Message() {
       </div>
 
       <div className="logout mx-auto">
-           <a href="/logout" className="logout-link">
+           <Link href="/logout" className="logout-link">
                 <img src={Logout} alt="logout-icon" />
                 Logout
-           </a>
+           </Link>
       </div>
     </main>
   );
