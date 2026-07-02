@@ -1,0 +1,21 @@
+.empty-panel { 
+    height: 100%; 
+    text-align: center; 
+}
+.empty-panel-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #eef0f7;
+  color: #5b4fe5;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+.empty-panel h5 { 
+    font-weight: 700; 
+    color: #111827; 
+}
+.empty-panel p { 
+    max-width: 340px; 
+    font-size: 0.9rem; 
+}
