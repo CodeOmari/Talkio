@@ -43,7 +43,7 @@ export default function Form({route, method}){
 
         if (method === 'login') {
             payload = { 
-            Email, 
+            email, 
             password: password1,
             };
         } else {
@@ -54,6 +54,8 @@ export default function Form({route, method}){
             password2, 
             };
         }
+
+        console.log("Payload:", payload);
 
         const res = await api.post(route, payload);
 
